@@ -1,0 +1,133 @@
+```
+layout: single
+date: 2020-06-05 17:00 +0900
+title: "Bin"
+```
+
+## Main
+
+* code
+
+  ~~~
+  import java.util.ArrayList;
+  
+  public class Main {
+      public static void main(String[] args) {
+          int[] items = {7, 5, 6, 4, 2, 3, 7, 5};
+          ArrayList<Bin> arr = new ArrayList<>();
+  
+          Fit ff = new NextFit();
+          for (int i=0; i<items.length; i++) {
+              ff.fit(arr, new Item(items[i]));
+          }
+  
+          for (int i = 0; i < arr.size(); i++) {
+              System.out.println(arr.get(i));
+          }
+      }
+  }
+  ~~~
+
+  ## Bin 
+
+  * code
+
+    ~~~
+    public class Bin {
+        public int capacity = 10;   // 총 용량
+        public int currentCapacity = 0;        // 현재 용량
+        public int remainCapacity = 10; // 남은 용량
+    
+        public boolean check(Item item) {
+            return remainCapacity >= item.weight;
+        }
+    
+        public void update(Item item) {
+            currentCapacity += item.weight;
+            remainCapacity = capacity - currentCapacity;
+        }
+    
+        @Override
+        public String toString() {
+            return "Bin{" +
+                    "capacity=" + capacity +
+                    ", currentCapacity=" + currentCapacity +
+                    ", remainCapacity=" + remainCapacity +
+                    '}';
+        }
+    }
+    ~~~
+
+    ## FirstFit
+
+    * code
+
+      ~~~
+      import java.util.ArrayList;
+      
+      public class FirstFit implements Fit {
+          @Override
+          public void fit(ArrayList<Bin> arr, Item item) {
+              for (int i=0; i<arr.size(); i++) {
+                  Bin bin = arr.get(i);
+                  if(bin.check(item)) {
+                      bin.update(item);
+                      return;
+                  }
+              }
+      
+              Bin b = new Bin();
+              b.update(item);
+              arr.add(b);
+          }
+      }
+      ~~~
+
+      
+
+## Item
+
+* code
+
+  ~~~
+  public class Item {
+      public int weight;
+  
+      public Item(int weight) {
+          this.weight = weight;
+      }
+  }
+  ~~~
+
+  
+
+##  Fit
+
+* code
+
+  ~~~
+  import java.util.ArrayList;
+  
+  public interface Fit {
+      public void fit(ArrayList<Bin> arr, Item item);
+  }
+  ~~~
+
+  
+
+## NextFit
+
+* code
+
+  ~~~
+  import java.util.ArrayList;
+  
+  public class NextFit implements Fit{
+      @Override
+      public void fit(ArrayList<Bin> arr, Item item) {
+  
+      }
+  }
+  ~~~
+
+  
